@@ -1,0 +1,164 @@
+{
+  "components": {
+    "schemas": {
+      "CompressPromptRequest": {
+        "properties": {
+          "concate_question": {
+            "default": true,
+            "description": "Includes the question in the compressed prompt",
+            "type": "boolean"
+          },
+          "context": {
+            "description": "Context or documents (low compression sensitivity)",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "instruction": {
+            "default": "",
+            "description": "Instruction (high compression sensitivity)",
+            "type": "string"
+          },
+          "keep_first_sentence": {
+            "default": 0,
+            "description": "Retains the first 'k' sentences in each context",
+            "type": "integer"
+          },
+          "keep_last_sentence": {
+            "default": 0,
+            "description": "Retains the last 'k' sentences in each context",
+            "type": "integer"
+          },
+          "keep_sentence_number": {
+            "default": 0,
+            "description": "Retains a specific number of sentences in each context",
+            "type": "integer"
+          },
+          "question": {
+            "default": "",
+            "description": "Question (high compression sensitivity)",
+            "type": "string"
+          },
+          "rank_method": {
+            "default": "longllmlingua",
+            "description": "Method for ranking in coarse-level compression",
+            "type": "string"
+          },
+          "ratio": {
+            "default": 0.5,
+            "description": "Target compression ratio (default: 0.5)",
+            "type": "number"
+          },
+          "target_token": {
+            "default": -1.0,
+            "description": "Target compression token count (default: -1)",
+            "type": "number"
+          },
+          "use_context_level_filter": {
+            "default": true,
+            "description": "Enables context-level compression",
+            "type": "boolean"
+          },
+          "use_sentence_level_filter": {
+            "default": false,
+            "description": "Enables sentence-level compression",
+            "type": "boolean"
+          },
+          "use_token_level_filter": {
+            "default": true,
+            "description": "Enables token-level compression",
+            "type": "boolean"
+          }
+        },
+        "required": ["context"],
+        "type": "object"
+      },
+      "CompressPromptResponse": {
+        "properties": {
+          "compressed_prompt": {
+            "description": "The compressed prompt result",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "code": {
+            "description": "Error code",
+            "type": "integer"
+          },
+          "error": {
+            "description": "Error message",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "contact": {
+      "email": "admin@yourdomain.com"
+    },
+    "description": "Compress a prompt using LLMLingua2",
+    "title": "LLMLingua2 API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.2",
+  "paths": {
+    "/compress-prompt": {
+      "post": {
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompressPromptRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompressPromptResponse"
+                }
+              }
+            },
+            "description": "Compressed prompt"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Local server",
+      "url": "http://localhost:5000"
+    }
+  ]
+}
